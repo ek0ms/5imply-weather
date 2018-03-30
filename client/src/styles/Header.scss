@@ -1,3 +1,40 @@
 .header {
   display: flex;
+  padding: 20px;
+  justify-content: flex-start;
+  background-color: #eff59b;
+
+  .logo {
+    // flex: auto;
+    color: blue;
+    text-decoration: none;
+    font-size: 60px;
+    margin-right: 40px;
+  }
+
+  .search-form {
+    display: flex;
+    flex: auto;
+    margin-right: 20px;
+    flex-flow: column nowrap;
+    justify-content: center;
+
+    .search-container {
+      width: 100%;
+      display: flex;
+      flex-flow: row nowrap;
+      align-self: center;
+
+      .search-field {
+        width: 100%;
+      }
+
+      .btn-search {
+      }
+    }
+
+    .error {
+      align-self: flex-start;
+    }
+  }
 }

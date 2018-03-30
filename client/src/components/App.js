@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from './Header';
+import DayCardList from './DayCardList';
 
 class App extends Component {
   constructor(props) {
@@ -65,27 +66,32 @@ class App extends Component {
       return weatherForNext144Hours;
     }
 
-    function setWeatherForDay(day) {
-      const { icon, temperatureHigh, temperatureLow } = day;
-      const timeInMs = day.time * 1000;
+    this.setState({ address, days, hours });
 
-      return { icon, temperatureLow, temperatureHigh, timeInMs };
+    // HELPER FUNCTIONS //
+    function setWeatherForDay(day) {
+      const { icon } = day;
+      const timeInMs = day.time * 1000;
+      const roundedHighTemp = Math.round(day.temperatureHigh);
+      const roundedLowTemp = Math.round(day.temperatureLow);
+
+      return { icon, roundedHighTemp, roundedLowTemp, timeInMs };
     }
 
     function setWeatherForHour(hour) {
-      const { temperature, icon } = hour;
+      const { icon } = hour;
       const timeInMs = hour.time * 1000;
+      const roundedTemp = Math.round(hour.temperature);
 
-      return { temperature, icon, timeInMs };
+      return { roundedTemp, icon, timeInMs };
     }
-
-    this.setState({ address, days, hours });
   }
 
   render() {
     return (
       <div className="App">
         <Header searchCity={this.searchCity} />
+        <DayCardList days={this.state.days} address={this.state.address} />
       </div>
     );
   }
