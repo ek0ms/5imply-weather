@@ -13,11 +13,8 @@
   }
 
   .search-form {
-    display: flex;
-    flex: auto;
+    width: 100%;
     margin-right: 20px;
-    flex-flow: column nowrap;
-    justify-content: center;
 
     .search-container {
       width: 100%;

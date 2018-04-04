@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import Header from './Header';
-import DayCardList from './DayCardList';
+import LandingPage from './LandingPage';
+import ShowDailyWeather from './ShowDailyWeather';
+import ShowHourlyWeather from './ShowHourlyWeather';
 
 class App extends Component {
   constructor(props) {
@@ -40,7 +43,7 @@ class App extends Component {
     function getWeatherOfNext5Days(daysOfTheWeek) {
       let weatherOfNext5Days = {};
 
-      for (let dayIndex = 0; dayIndex < 5; dayIndex++) {
+      for (let dayIndex = 0; dayIndex < 5; dayIndex += 1) {
         const day = daysOfTheWeek[dayIndex];
         const weather = setWeatherForDay(day);
 
@@ -56,7 +59,7 @@ class App extends Component {
     function getWeatherOfNext144Hours(hoursOfTheWeek) {
       let weatherForNext144Hours = {};
 
-      for (let hoursIndex = 0; hoursIndex < 144; hoursIndex++) {
+      for (let hoursIndex = 0; hoursIndex < 144; hoursIndex += 1) {
         const hour = hoursOfTheWeek[hoursIndex];
         const weather = setWeatherForHour(hour);
 
@@ -75,7 +78,12 @@ class App extends Component {
       const roundedHighTemp = Math.round(day.temperatureHigh);
       const roundedLowTemp = Math.round(day.temperatureLow);
 
-      return { icon, roundedHighTemp, roundedLowTemp, timeInMs };
+      return {
+        icon,
+        roundedHighTemp,
+        roundedLowTemp,
+        timeInMs,
+      };
     }
 
     function setWeatherForHour(hour) {
@@ -87,11 +95,33 @@ class App extends Component {
     }
   }
 
+  // RENDER FUNCTIONS //
+  renderHeader = (routeProps) => <Header {...routeProps} searchCity={this.searchCity} />;
+
+  renderShowDailyWeather = (routeProps) => (
+    <ShowDailyWeather {...routeProps} address={this.state.address} days={this.state.days} />
+  );
+
+  renderShowHourlyWeather = (routeProps) => {
+    if (this.state.address) {
+      return (
+        <ShowHourlyWeather {...routeProps} address={this.state.address} hours={this.state.hours} />
+      );
+    }
+
+    return <Redirect to="/" />;
+  };
+
   render() {
     return (
       <div className="App">
-        <Header searchCity={this.searchCity} />
-        <DayCardList days={this.state.days} address={this.state.address} />
+        <Switch>
+          <Route path="/" exact component={LandingPage} />
+          {/* <Route path="/" render={this.renderHeader} /> */}
+          {/* <Route path="/" exact render={this.renderIndexPage} /> */}
+          <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
+          <Redirect from="/*" to="/" />
+        </Switch>
       </div>
     );
   }

@@ -16,7 +16,7 @@ class SearchBar extends Component {
   }
 
   onInputChange = ({ target }) => {
-    const value = target.value;
+    const { value } = target;
     this.setState({ value });
   };
 
@@ -39,6 +39,9 @@ class SearchBar extends Component {
     return (
       <form className="search-form" onSubmit={this.onFormSubmit}>
         <div className="search-container">
+          <span className="search-icon">
+            <i className="fas fa-search" />
+          </span>
           <input
             type="text"
             placeholder="Enter an address"
@@ -48,7 +51,7 @@ class SearchBar extends Component {
             onChange={this.onInputChange}
           />
           <button type="submit" className="btn-search" disabled={this.state.isDisabled}>
-            Search
+            SEARCH
           </button>
         </div>
         <div className="error">{this.state.error}</div>

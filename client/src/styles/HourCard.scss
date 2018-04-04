@@ -1,0 +1,25 @@
+.hour-card {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-left: 100px;
+  margin-right: 100px;
+  border-bottom: 1px solid #ddd;
+
+  &:hover {
+    background-color: #fcfcfc;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .time {
+  }
+  .icon {
+    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
+  }
+  .temp {
+  }
+}

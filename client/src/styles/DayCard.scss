@@ -1,8 +1,6 @@
 .day-card {
-  padding: 20px;
   border: 1px solid transparent;
   transition: border-color 0.3s background-color 0.3s;
-  color: #676767;
 
   &:hover {
     border-color: #ddd;
@@ -14,13 +12,24 @@
     background-color: #efefef;
   }
 
-  .temps {
-    .temp-high {
-      color: #121212;
-      margin-right: 7px;
+  .day-card-link {
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+
+    &:any-link,
+    &:visited,
+    &:hover {
+      color: #676767;
     }
 
-    .temp-low {
+    .temps {
+      .temp-high {
+        color: #121212;
+        margin-right: 7px;
+      }
+      .temp-low {
+      }
     }
   }
 }

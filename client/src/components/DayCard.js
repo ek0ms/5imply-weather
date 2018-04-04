@@ -1,27 +1,25 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import icons from '../icons/icons';
 
 const week = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
-const iconSvgs = require.context('../icons', false, /\.svg$/);
-const iconFilePaths = iconSvgs.keys();
-const iconFilePathsMappedToSrc = iconFilePaths.reduce((icons, filePath) => {
-  icons[filePath] = iconSvgs(filePath);
-  return icons;
-}, {});
 
 const DayCard = (props) => {
   const date = new Date(props.time);
   const dayOfWeek = week[date.getDay()];
-  const iconSrc = iconFilePathsMappedToSrc[`./${props.icon}.svg`];
+  const iconSrc = icons[`./${props.icon}.svg`];
   const alt = props.icon.replace('-', ' ');
 
   return (
     <li className="day-card">
-      <div className="day-of-week">{dayOfWeek}</div>
-      <img src={iconSrc} alt={alt} />
-      <div className="temps">
-        <span className="temp-high">{props.high}&deg;</span>
-        <span className="temp-low">{props.low}&deg;</span>
-      </div>
+      <Link to={`/hourly/${props.time}`} className="day-card-link">
+        <div className="day-of-week">{dayOfWeek}</div>
+        <img src={iconSrc} alt={alt} />
+        <div className="temps">
+          <span className="temp-high">{props.high}&deg;</span>
+          <span className="temp-low">{props.low}&deg;</span>
+        </div>
+      </Link>
     </li>
   );
 };
