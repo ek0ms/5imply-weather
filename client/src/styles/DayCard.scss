@@ -1,15 +1,14 @@
 .day-card {
   border: 1px solid transparent;
-  transition: border-color 0.3s background-color 0.3s;
+  transition: background-color 0.3s;
 
   &:hover {
-    border-color: #ddd;
-    background-color: #fcfcfc;
+    background-color: $primary-dark;
     cursor: pointer;
   }
 
   &:active {
-    background-color: #efefef;
+    background-color: $primary;
   }
 
   .day-card-link {
@@ -20,15 +19,19 @@
     &:any-link,
     &:visited,
     &:hover {
-      color: #676767;
+      color: $white;
+    }
+
+    .icon {
+      filter: invert(1);
     }
 
     .temps {
       .temp-high {
-        color: #121212;
         margin-right: 7px;
       }
       .temp-low {
+        color: $text-primary;
       }
     }
   }

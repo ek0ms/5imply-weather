@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
+import { TransitionGroup } from 'react-transition-group';
 import Header from './Header';
 import LandingPage from './LandingPage';
 import ShowDailyWeather from './ShowDailyWeather';
@@ -21,9 +22,7 @@ class App extends Component {
   //     .then((json) => console.log(json));
   // }
 
-  // componentDidUpdate() {
-  //   debugger;
-  // }
+  componentDidUpdate() {}
 
   searchCity = async (query) => {
     const uri = encodeURI(query);
@@ -31,6 +30,7 @@ class App extends Component {
     const json = await response.json();
 
     this.updateState(json);
+    // <Redirect to=/daily
   };
 
   updateState(data) {
@@ -96,16 +96,34 @@ class App extends Component {
   }
 
   // RENDER FUNCTIONS //
-  renderHeader = (routeProps) => <Header {...routeProps} searchCity={this.searchCity} />;
+  renderLandingPage = (routeProps) => <LandingPage {...routeProps} searchCity={this.searchCity} />;
 
-  renderShowDailyWeather = (routeProps) => (
-    <ShowDailyWeather {...routeProps} address={this.state.address} days={this.state.days} />
-  );
+  // renderHeader = (routeProps) => <Header {...routeProps} searchCity={this.searchCity} />;
+
+  renderShowDailyWeather = (routeProps) => {
+    if (this.state.address) {
+      return (
+        <ShowDailyWeather
+          {...routeProps}
+          address={this.state.address}
+          days={this.state.days}
+          searchCity={this.searchCity}
+        />
+      );
+    }
+
+    return <Redirect to="/" />;
+  };
 
   renderShowHourlyWeather = (routeProps) => {
     if (this.state.address) {
       return (
-        <ShowHourlyWeather {...routeProps} address={this.state.address} hours={this.state.hours} />
+        <ShowHourlyWeather
+          {...routeProps}
+          address={this.state.address}
+          hours={this.state.hours}
+          searchCity={this.searchCity}
+        />
       );
     }
 
@@ -115,13 +133,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Switch>
-          <Route path="/" exact component={LandingPage} />
-          {/* <Route path="/" render={this.renderHeader} /> */}
-          {/* <Route path="/" exact render={this.renderIndexPage} /> */}
-          <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
-          <Redirect from="/*" to="/" />
-        </Switch>
+        <TransitionGroup>
+          <Switch>
+            <Route path="/" exact render={this.renderLandingPage} />
+            {/* <Route path="/" render={this.renderHeader} /> */}
+            <Route path="/daily" render={this.renderShowDailyWeather} />
+            <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
+            <Redirect from="/*" to="/" />
+          </Switch>
+        </TransitionGroup>
       </div>
     );
   }

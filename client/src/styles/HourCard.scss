@@ -5,10 +5,11 @@
   justify-content: space-around;
   margin-left: 100px;
   margin-right: 100px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid $primary-dark;
+  transition: background-color 0.3s;
 
   &:hover {
-    background-color: #fcfcfc;
+    background-color: $primary-dark;
   }
 
   &:last-child {
@@ -16,10 +17,12 @@
   }
 
   .time {
+    color: $white;
   }
   .icon {
-    filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
+    filter: invert(1);
   }
   .temp {
+    color: $white;
   }
 }

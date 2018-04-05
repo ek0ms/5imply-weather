@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 class SearchBar extends Component {
   constructor(props) {
@@ -22,17 +23,26 @@ class SearchBar extends Component {
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    this.setState({ isDisabled: true });
     const error = validate(this.state.value);
 
     if (error) {
-      this.setState({ error, isDisabled: false });
+      this.setState({ error });
+      this.searchField.focus();
     } else {
-      this.props
-        .searchCity(this.state.value)
-        .then(() => this.setState({ value: '', isDisabled: false, error }));
+      this.setState({ isDisabled: true });
+      if (this.props.updateLoader) {
+        this.props.updateLoader(true);
+      }
+
+      this.props.searchCity(this.state.value).then(() => {
+        this.setState({ isDisabled: false, error });
+        if (this.props.updateLoader) {
+          this.props.updateLoader(false);
+        }
+
+        this.props.history.push('/daily');
+      });
     }
-    this.searchField.focus();
   };
 
   render() {
@@ -60,7 +70,7 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+export default withRouter(SearchBar);
 
 function validate(value) {
   let errors = '';

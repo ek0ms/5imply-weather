@@ -1,37 +1,24 @@
 .header {
   display: flex;
-  padding: 20px;
+  padding: 0 20px;
   justify-content: flex-start;
-  background-color: #eff59b;
+  background-color: $primary;
+  height: 150px;
 
   .logo {
-    // flex: auto;
-    color: blue;
+    margin: auto 20px auto 0;
+    color: $primary-light;
     text-decoration: none;
-    font-size: 60px;
-    margin-right: 40px;
+    font-size: 4em;
   }
 
   .search-form {
-    width: 100%;
-    margin-right: 20px;
-
-    .search-container {
-      width: 100%;
-      display: flex;
-      flex-flow: row nowrap;
-      align-self: center;
-
-      .search-field {
-        width: 100%;
-      }
-
-      .btn-search {
-      }
-    }
+    margin-top: 50.2px;
 
     .error {
-      align-self: flex-start;
+      margin: 0;
+      padding-top: 0.1em;
+      padding-left: 2.3em;
     }
   }
 }

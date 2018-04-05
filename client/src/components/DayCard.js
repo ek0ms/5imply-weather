@@ -14,7 +14,7 @@ const DayCard = (props) => {
     <li className="day-card">
       <Link to={`/hourly/${props.time}`} className="day-card-link">
         <div className="day-of-week">{dayOfWeek}</div>
-        <img src={iconSrc} alt={alt} />
+        <img src={iconSrc} alt={alt} className="icon" />
         <div className="temps">
           <span className="temp-high">{props.high}&deg;</span>
           <span className="temp-low">{props.low}&deg;</span>
