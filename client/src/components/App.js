@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { TransitionGroup } from 'react-transition-group';
-import Header from './Header';
 import LandingPage from './LandingPage';
 import ShowDailyWeather from './ShowDailyWeather';
 import ShowHourlyWeather from './ShowHourlyWeather';
@@ -22,7 +21,7 @@ class App extends Component {
   //     .then((json) => console.log(json));
   // }
 
-  componentDidUpdate() {}
+  // componentDidUpdate() {}
 
   searchCity = async (query) => {
     const uri = encodeURI(query);
@@ -30,7 +29,6 @@ class App extends Component {
     const json = await response.json();
 
     this.updateState(json);
-    // <Redirect to=/daily
   };
 
   updateState(data) {
@@ -136,7 +134,6 @@ class App extends Component {
         <TransitionGroup>
           <Switch>
             <Route path="/" exact render={this.renderLandingPage} />
-            {/* <Route path="/" render={this.renderHeader} /> */}
             <Route path="/daily" render={this.renderShowDailyWeather} />
             <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
             <Redirect from="/*" to="/" />

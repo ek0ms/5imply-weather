@@ -29,9 +29,16 @@ class LandingPage extends Component {
 
   render() {
     return (
-      <CSSTransition timeout={500} classNames="slide" in={this.state.in} appear={this.state.in}>
+      <CSSTransition
+        timeout={500}
+        classNames="fade-in-slide-out"
+        in={this.state.in}
+        appear={this.state.in}
+      >
         <div className="landing-page">
-          <div className="title">5imply Weather</div>
+          <div className="title">
+            5<span className="text-light">imply</span> W<span className="text-light">eather</span>
+          </div>
           <div className="loader">{this.renderLoader()}</div>
           <SearchBar searchCity={this.props.searchCity} updateLoader={this.updateLoader} />
         </div>

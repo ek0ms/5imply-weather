@@ -16,7 +16,7 @@ class ShowDailyWeather extends Component {
 
   render() {
     return (
-      <CSSTransition timeout={500} classNames="slide" in={this.state.in}>
+      <CSSTransition timeout={500} classNames="slide-in" in={this.state.in}>
         <div className="show-daily-weather">
           <Header searchCity={this.props.searchCity} />
           <div className="address">{this.props.address}</div>

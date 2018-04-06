@@ -14,6 +14,10 @@
     top: 25vh;
     left: 0;
     right: 0;
+
+    .text-light {
+      color: $primary-light;
+    }
   }
 
   .loader {
@@ -49,19 +53,51 @@
 //   transition: all 300ms ease-out;
 // }
 
-.slide-enter,
-.slide-appear {
+.fade-enter,
+.fade-appear {
   opacity: 0.01;
 }
-.slide-enter.slide-enter-active,
-.slide-appear.slide-appear-active {
+.fade-enter.fade-enter-active,
+.fade-appear.fade-appear-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
-.slide-exit {
+.fade-exit {
   opacity: 1;
 }
-.slide-exit.slide-exit-active {
+.fade-exit.fade-exit-active {
   opacity: 0.01;
   transition: opacity 300ms ease-in;
+}
+
+.fade-in-slide-out-enter,
+.fade-in-slide-out-appear {
+  opacity: 0.01;
+}
+
+.fade-in-slide-out-enter.fade-in-slide-out-enter-active,
+.fade-in-slide-out-appear.fade-in-slide-out-appear-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.slide-in-enter {
+  transform: translateY(80%);
+}
+
+.slide-in-enter.slide-in-enter-active {
+  transform: translateY(0%);
+  transition: transform 500ms ease-in-out;
+}
+
+.fade-in-slide-out-exit {
+  transform: translateY(0%);
+}
+.fade-in-slide-out-exit.fade-in-slide-out-exit-active {
+  transform: translateY(-42%);
+  transition: transform 500ms ease-in-out;
+}
+
+.fade-in-slide-out-exit-done {
+  transform: translateY(-42%);
 }
