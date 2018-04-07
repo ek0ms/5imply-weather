@@ -1,3 +1,4 @@
+/* eslint no-shadow: 0 */
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { TransitionGroup } from 'react-transition-group';
@@ -39,6 +40,7 @@ class App extends Component {
     const hours = getWeatherOfNext144Hours(hoursOfTheWeek);
 
     function getWeatherOfNext5Days(daysOfTheWeek) {
+      // eslint-disable-line no-use-before-define
       let weatherOfNext5Days = {};
 
       for (let dayIndex = 0; dayIndex < 5; dayIndex += 1) {

@@ -21,11 +21,10 @@ class HourCardList extends Component {
     return weatherForNext24Hours;
   }
 
-  renderWeatherForNext24Hours(weatherForNext24Hours) {
-    return weatherForNext24Hours.map((hour) => (
+  renderWeatherForNext24Hours = (weatherForNext24Hours) =>
+    weatherForNext24Hours.map((hour) => (
       <HourCard icon={hour.icon} temp={hour.roundedTemp} time={hour.timeInMs} key={hour.timeInMs} />
     ));
-  }
 
   render() {
     const dayInMs = this.props.match.params.id;

@@ -25,6 +25,7 @@ class LandingPage extends Component {
     if (this.state.isLoading) {
       return <Skycons color="white" icon="WIND" />;
     }
+    return <noscript />;
   };
 
   render() {
