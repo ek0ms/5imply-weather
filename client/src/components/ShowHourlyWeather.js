@@ -1,34 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import Header from './Header';
 import HourCardList from './HourCardList';
 
-class ShowHourlyWeather extends Component {
-  constructor(props) {
-    super(props);
+const ShowHourlyWeather = (props) => {
+  const date = new Date(Number(props.match.params.id));
+  const localeDate = date.toLocaleDateString();
 
-    this.state = { in: true };
-  }
-
-  componentWillUnmount() {
-    this.setState({ in: false });
-  }
-
-  render() {
-    const date = new Date(Number(this.props.match.params.id));
-    const localeDate = date.toLocaleDateString();
-
-    return (
-      <CSSTransition timeout={5000} classNames="fade" in={this.state.in}>
-        <div className="show-hourly-weather">
-          <Header searchCity={this.props.searchCity} />
-          <div className="address">{this.props.address}</div>
-          <div className="date">{localeDate}</div>
-          <HourCardList {...this.props} />
-        </div>
-      </CSSTransition>
-    );
-  }
-}
+  return (
+    // <CSSTransition timeout={500} classNames="fade" in={this.state.in}>
+    <div className="show-hourly-weather">
+      <Header searchCity={props.searchCity} days={props.days} />
+      <div className="address">{props.address}</div>
+      <div className="date">{localeDate}</div>
+      <HourCardList {...props} />
+    </div>
+    // </CSSTransition>
+  );
+};
 
 export default ShowHourlyWeather;

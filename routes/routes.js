@@ -19,20 +19,22 @@ module.exports = (app) => {
     const address = decodeURI(req.params.address);
 
     googleMapsClient.geocode({ address }, (error, response) => {
-      if (!error) {
-        const { lat, lng } = response.json.results[0].geometry.location;
-        const address = response.json.results[0].formatted_address;
-        const weatherUrl = `${weatherRootUrl}${lat},${lng}?exclude=currently,minutely,alerts,flags&extend=hourly`;
-
-        request.get(weatherUrl, (error, response, body) => {
-          if (error) {
-            res.send(error);
-          }
-
-          const json = JSON.parse(body);
-          res.send({ ...json, address });
-        });
+      if (error) {
+        res.send(error);
       }
+
+      const { lat, lng } = response.json.results[0].geometry.location;
+      const address = response.json.results[0].formatted_address;
+      const weatherUrl = `${weatherRootUrl}${lat},${lng}?exclude=currently,minutely,alerts,flags&extend=hourly`;
+
+      request(weatherUrl, (error, response, body) => {
+        if (error) {
+          res.send(error);
+        }
+
+        const json = JSON.parse(body);
+        res.send({ ...json, address });
+      });
     });
 
     // request.get(googleUrl, (error, response, body) => {

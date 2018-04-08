@@ -1,7 +1,7 @@
 /* eslint no-shadow: 0 */
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import { TransitionGroup } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import LandingPage from './LandingPage';
 import ShowDailyWeather from './ShowDailyWeather';
 import ShowHourlyWeather from './ShowHourlyWeather';
@@ -16,13 +16,6 @@ class App extends Component {
       hours: {},
     };
   }
-  // componentDidMount() {
-  //   fetch('http://localhost:5000/api')
-  //     .then((response) => response.json())
-  //     .then((json) => console.log(json));
-  // }
-
-  // componentDidUpdate() {}
 
   searchCity = async (query) => {
     const uri = encodeURI(query);
@@ -40,7 +33,6 @@ class App extends Component {
     const hours = getWeatherOfNext144Hours(hoursOfTheWeek);
 
     function getWeatherOfNext5Days(daysOfTheWeek) {
-      // eslint-disable-line no-use-before-define
       let weatherOfNext5Days = {};
 
       for (let dayIndex = 0; dayIndex < 5; dayIndex += 1) {
@@ -123,6 +115,7 @@ class App extends Component {
           address={this.state.address}
           hours={this.state.hours}
           searchCity={this.searchCity}
+          days={this.state.days}
         />
       );
     }
@@ -132,16 +125,23 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <TransitionGroup>
-          <Switch>
-            <Route path="/" exact render={this.renderLandingPage} />
-            <Route path="/daily" render={this.renderShowDailyWeather} />
-            <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
-            <Redirect from="/*" to="/" />
-          </Switch>
-        </TransitionGroup>
-      </div>
+      <Route
+        render={({ location }) => (
+          <div className="App">
+            <TransitionGroup>
+              <CSSTransition key={location.key} timeout={300} classNames="fade" appear>
+                <Switch location={location}>
+                  <Route path="/" exact render={this.renderLandingPage} />
+                  <Route path="/daily" render={this.renderShowDailyWeather} />
+                  <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
+                  <Redirect to="/" />
+                  {/* <Route render={() => <Redirect to="/" />} /> */}
+                </Switch>
+              </CSSTransition>
+            </TransitionGroup>
+          </div>
+        )}
+      />
     );
   }
 }

@@ -1,4 +1,9 @@
 .show-hourly-weather {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+
   .address {
     color: $white;
     padding: 20px;

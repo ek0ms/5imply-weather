@@ -1,4 +1,9 @@
 .show-daily-weather {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+
   .address {
     padding: 20px;
     font-size: 2em;
