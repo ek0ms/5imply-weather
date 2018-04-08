@@ -90,8 +90,6 @@ class App extends Component {
   // RENDER FUNCTIONS //
   renderLandingPage = (routeProps) => <LandingPage {...routeProps} searchCity={this.searchCity} />;
 
-  // renderHeader = (routeProps) => <Header {...routeProps} searchCity={this.searchCity} />;
-
   renderShowDailyWeather = (routeProps) => {
     if (this.state.address) {
       return (

@@ -46,7 +46,8 @@
       transition: color 250ms;
 
       &:hover {
-        color: $primary-dark;
+        color: $white;
+        font-weight: bold;
       }
     }
   }
