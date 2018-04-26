@@ -12,7 +12,7 @@ const DayCard = (props) => {
 
   return (
     <li className="day-card">
-      <Link to={`/hourly/${props.time}`} className="day-card-link">
+      <Link to={`hourly/${props.time}`} className="day-card-link">
         <div className="day-of-week">{dayOfWeek}</div>
         <img src={iconSrc} alt={alt} className="icon" />
         <div className="temps">

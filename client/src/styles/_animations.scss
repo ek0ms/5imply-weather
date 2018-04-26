@@ -1,13 +1,3 @@
-// .slide.exit {
-//   top: 0px;
-//   opacity: 1;
-// }
-//
-// .slide.exit-active {
-//   top: 1000px;
-//   transition: all 300ms ease-out;
-// }
-
 .fade-enter,
 .fade-appear {
   opacity: 0.01;
@@ -24,6 +14,16 @@
   opacity: 0.01;
   transition: opacity 250ms ease-in;
 }
+
+// .slide.exit {
+//   top: 0px;
+//   opacity: 1;
+// }
+//
+// .slide.exit-active {
+//   top: 1000px;
+//   transition: all 300ms ease-out;
+// }
 
 // .fade-in-slide-out-enter,
 // .fade-in-slide-out-appear {

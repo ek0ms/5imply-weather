@@ -4,15 +4,17 @@
   width: 100vw;
   max-width: 100%;
 
-  .address {
-    color: $white;
-    padding: 20px;
-    font-size: 2em;
-    font-weight: bold;
-  }
-
   .date {
     font-size: 1.9em;
     color: $primary-light;
+  }
+
+  .loader {
+    height: 100px;
+    width: 200px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }

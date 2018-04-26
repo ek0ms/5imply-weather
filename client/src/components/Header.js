@@ -1,12 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-// import { CSSTransition } from 'react-transition-group';
 import _ from 'lodash';
 import SearchBar from './SearchBar';
 
 const Header = (props) => {
   const renderDayLinks = () => {
-    if (!props.days) {
+    if (!props.location.pathname.includes(`/weather/${props.lat},${props.lng}/hourly`)) {
       return <noscript />;
     }
 
@@ -15,7 +14,7 @@ const Header = (props) => {
     return _.map(props.days, (day) => {
       const date = new Date(day.timeInMs);
       const dayOfWeek = week[date.getDay()];
-      const dayUrl = `/hourly/${day.timeInMs}`;
+      const dayUrl = `/weather/${props.lat},${props.lng}/hourly/${day.timeInMs}`;
       return (
         <li className="day-link-wrapper" key={day.timeInMs}>
           <NavLink
@@ -35,13 +34,11 @@ const Header = (props) => {
 
   return (
     <div className="header">
-      {/* <CSSTransition classNames="fade" timeout={500} in> */}
       <div className="logo-searchbar-wrapper">
         <a href="/" className="logo">
           5W
         </a>
-        {/* </CSSTransition> */}
-        <SearchBar searchCity={props.searchCity} />
+        <SearchBar searchCity={props.searchCity} lat={props.lat} lng={props.lng} />
       </div>
       <ul className="nav-days">{renderDayLinks()}</ul>
     </div>

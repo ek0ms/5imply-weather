@@ -1,22 +1,42 @@
-import React from 'react';
-// import { CSSTransition } from 'react-transition-group';
-import Header from './Header';
+import React, { Component } from 'react';
+import Skycons from 'react-skycons';
 import HourCardList from './HourCardList';
 
-const ShowHourlyWeather = (props) => {
-  const date = new Date(Number(props.match.params.id));
-  const localeDate = date.toLocaleDateString();
+class ShowHourlyWeather extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    // <CSSTransition timeout={500} classNames="fade" in={this.state.in}>
-    <div className="show-hourly-weather">
-      <Header searchCity={props.searchCity} days={props.days} />
-      <div className="address">{props.address}</div>
-      <div className="date">{localeDate}</div>
-      <HourCardList {...props} />
-    </div>
-    // </CSSTransition>
-  );
-};
+    this.state = { isLoading: false };
+  }
+
+  componentWillMount() {
+    const { coords } = this.props.match.params;
+    if (coords !== `${this.props.lat},${this.props.lng}`) {
+      this.setState({ isLoading: true });
+      this.props.showLoader(true);
+      this.props.searchCoords(coords).then(() => {
+        this.setState({ isLoading: false });
+        this.props.showLoader(false);
+      });
+    }
+  }
+
+  render() {
+    const date = new Date(Number(this.props.match.params.id));
+    const localeDate = date.toLocaleDateString();
+    const content = this.state.isLoading ? (
+      <div className="loader">
+        <Skycons color="white" icon="WIND" />
+      </div>
+    ) : (
+      <div>
+        <div className="date">{localeDate}</div>
+        <HourCardList {...this.props} />
+      </div>
+    );
+
+    return <div className="show-hourly-weather">{content}</div>;
+  }
+}
 
 export default ShowHourlyWeather;

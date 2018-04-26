@@ -1,16 +1,36 @@
-import React from 'react';
-// import { CSSTransition } from 'react-transition-group';
-import Header from './Header';
+import React, { Component } from 'react';
+import Skycons from 'react-skycons';
 import DayCardList from './DayCardList';
 
-const ShowDailyWeather = (props) => (
-  // <CSSTransition timeout={500} classNames="slide-in" in={this.state.in}>
-  <div className="show-daily-weather">
-    <Header searchCity={props.searchCity} />
-    <div className="address">{props.address}</div>
-    <DayCardList {...props} />
-  </div>
-  // </CSSTransition>
-);
+class ShowDailyWeather extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { isLoading: false };
+  }
+
+  componentWillMount() {
+    const { coords } = this.props.match.params;
+    if (coords !== `${this.props.lat},${this.props.lng}`) {
+      this.setState({ isLoading: true });
+      this.props.showLoader(true);
+      this.props.searchCoords(coords).then(() => {
+        this.setState({ isLoading: false });
+        this.props.showLoader(false);
+      });
+    }
+  }
+
+  render() {
+    const content = this.state.isLoading ? (
+      <div className="loader">
+        <Skycons color="white" icon="WIND" />
+      </div>
+    ) : (
+      <DayCardList {...this.props} />
+    );
+    return <div className="show-daily-weather">{content}</div>;
+  }
+}
 
 export default ShowDailyWeather;

@@ -35,12 +35,12 @@ class SearchBar extends Component {
       }
 
       this.props.searchCity(this.state.value).then(() => {
-        this.setState({ isDisabled: false, error });
+        this.setState({ isDisabled: false, error, value: '' });
         if (this.props.updateLoader) {
           this.props.updateLoader(false);
         }
 
-        this.props.history.push('/daily');
+        this.props.history.push(`/weather/${this.props.lat},${this.props.lng}/daily`);
       });
     }
   };

@@ -1,10 +1,8 @@
 /* eslint no-shadow: 0 */
 import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import LandingPage from './LandingPage';
-import ShowDailyWeather from './ShowDailyWeather';
-import ShowHourlyWeather from './ShowHourlyWeather';
+import WeatherPage from './WeatherPage';
 
 class App extends Component {
   constructor(props) {
@@ -14,19 +12,28 @@ class App extends Component {
       address: '',
       days: {},
       hours: {},
+      lat: '',
+      lng: '',
     };
   }
 
   searchCity = async (query) => {
     const uri = encodeURI(query);
-    const response = await fetch(`http://localhost:5000/search/${uri}`);
+    const response = await fetch(`http://localhost:5000/address/${uri}`);
+    const json = await response.json();
+
+    this.updateState(json);
+  };
+
+  searchCoords = async (coords) => {
+    const response = await fetch(`http://localhost:5000/coordinates/${coords}`);
     const json = await response.json();
 
     this.updateState(json);
   };
 
   updateState(data) {
-    const { address } = data;
+    const { address, latitude: lat, longitude: lng } = data;
     const daysOfTheWeek = data.daily.data;
     const hoursOfTheWeek = data.hourly.data;
     const days = getWeatherOfNext5Days(daysOfTheWeek);
@@ -61,7 +68,13 @@ class App extends Component {
       return weatherForNext144Hours;
     }
 
-    this.setState({ address, days, hours });
+    this.setState({
+      address,
+      days,
+      hours,
+      lat,
+      lng,
+    });
 
     // HELPER FUNCTIONS //
     function setWeatherForDay(day) {
@@ -88,32 +101,23 @@ class App extends Component {
   }
 
   // RENDER FUNCTIONS //
-  renderLandingPage = (routeProps) => <LandingPage {...routeProps} searchCity={this.searchCity} />;
+  renderLandingPage = (routeProps) => (
+    <LandingPage
+      {...routeProps}
+      searchCity={this.searchCity}
+      lat={this.state.lat}
+      lng={this.state.lng}
+    />
+  );
 
-  renderShowDailyWeather = (routeProps) => {
+  renderWeatherPage = (routeProps) => {
     if (this.state.address) {
       return (
-        <ShowDailyWeather
+        <WeatherPage
           {...routeProps}
-          address={this.state.address}
-          days={this.state.days}
+          {...this.state}
           searchCity={this.searchCity}
-        />
-      );
-    }
-
-    return <Redirect to="/" />;
-  };
-
-  renderShowHourlyWeather = (routeProps) => {
-    if (this.state.address) {
-      return (
-        <ShowHourlyWeather
-          {...routeProps}
-          address={this.state.address}
-          hours={this.state.hours}
-          searchCity={this.searchCity}
-          days={this.state.days}
+          searchCoords={this.searchCoords}
         />
       );
     }
@@ -123,23 +127,13 @@ class App extends Component {
 
   render() {
     return (
-      <Route
-        render={({ location }) => (
-          <div className="App">
-            <TransitionGroup>
-              <CSSTransition key={location.key} timeout={300} classNames="fade" appear>
-                <Switch location={location}>
-                  <Route path="/" exact render={this.renderLandingPage} />
-                  <Route path="/daily" render={this.renderShowDailyWeather} />
-                  <Route path="/hourly/:id" render={this.renderShowHourlyWeather} />
-                  <Redirect to="/" />
-                  {/* <Route render={() => <Redirect to="/" />} /> */}
-                </Switch>
-              </CSSTransition>
-            </TransitionGroup>
-          </div>
-        )}
-      />
+      <div className="App">
+        <Switch>
+          <Route path="/" exact render={this.renderLandingPage} />
+          <Route path="/weather/:coords" render={this.renderWeatherPage} />
+          <Redirect to="/" />
+        </Switch>
+      </div>
     );
   }
 }
