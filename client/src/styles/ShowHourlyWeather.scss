@@ -1,8 +1,10 @@
 .show-hourly-weather {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
+  height: 2474.2px;
+
+  .show-hourly-weather-content {
+    position: absolute;
+    width: 100%;
+  }
 
   .date {
     font-size: 1.9em;

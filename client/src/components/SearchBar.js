@@ -34,7 +34,7 @@ class SearchBar extends Component {
         this.props.updateLoader(true);
       }
 
-      this.props.searchCity(this.state.value).then(() => {
+      this.props.searchAddress(this.state.value).then(() => {
         this.setState({ isDisabled: false, error, value: '' });
         if (this.props.updateLoader) {
           this.props.updateLoader(false);

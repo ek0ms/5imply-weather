@@ -1,0 +1,30 @@
+.footer {
+  background-color: $primary-dark;
+  padding: 0.5em 0;
+
+  .info-wrapper {
+    display: flex;
+    justify-content: center;
+
+    span {
+      margin: 0 0.5em;
+      color: $primary-light;
+    }
+
+    a {
+      &:link,
+      &:visited {
+        color: $primary-light;
+      }
+
+      &:hover,
+      &:active {
+        color: $text-primary;
+      }
+    }
+
+    .github {
+      font-size: 1em;
+    }
+  }
+}

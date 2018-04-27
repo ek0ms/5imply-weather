@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import LandingPage from './LandingPage';
 import WeatherPage from './WeatherPage';
+import Footer from './Footer';
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class App extends Component {
     };
   }
 
-  searchCity = async (query) => {
+  searchAddress = async (query) => {
     const uri = encodeURI(query);
     const response = await fetch(`http://localhost:5000/address/${uri}`);
     const json = await response.json();
@@ -104,7 +105,7 @@ class App extends Component {
   renderLandingPage = (routeProps) => (
     <LandingPage
       {...routeProps}
-      searchCity={this.searchCity}
+      searchAddress={this.searchAddress}
       lat={this.state.lat}
       lng={this.state.lng}
     />
@@ -116,7 +117,7 @@ class App extends Component {
         <WeatherPage
           {...routeProps}
           {...this.state}
-          searchCity={this.searchCity}
+          searchAddress={this.searchAddress}
           searchCoords={this.searchCoords}
         />
       );
@@ -133,6 +134,7 @@ class App extends Component {
           <Route path="/weather/:coords" render={this.renderWeatherPage} />
           <Redirect to="/" />
         </Switch>
+        <Route path="/" component={Footer} />
       </div>
     );
   }

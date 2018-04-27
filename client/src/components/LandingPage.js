@@ -30,7 +30,7 @@ class LandingPage extends Component {
         </div>
         <div className="loader">{this.renderLoader()}</div>
         <SearchBar
-          searchCity={this.props.searchCity}
+          searchAddress={this.props.searchAddress}
           updateLoader={this.updateLoader}
           lat={this.props.lat}
           lng={this.props.lng}

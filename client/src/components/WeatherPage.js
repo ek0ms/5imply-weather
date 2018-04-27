@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Header from './Header';
 import Address from './Address';
 import ShowDailyWeather from './ShowDailyWeather';
@@ -16,6 +15,20 @@ class WeatherPage extends Component {
   showLoader = (bool) => {
     this.setState({ isLoading: bool });
   };
+
+  componentDidUpdate(prevProps) {
+    const { coords } = this.props.match.params;
+    const prevCoords = prevProps.match.params.coords;
+
+    if (coords !== prevCoords) {
+      this.setState({ isLoading: true });
+      this.showLoader(true);
+      this.props.searchCoords(coords).then(() => {
+        this.setState({ isLoading: false });
+        this.showLoader(false);
+      });
+    }
+  }
 
   renderShowDailyWeather = (routeProps) => {
     if (this.props.address) {
@@ -57,27 +70,20 @@ class WeatherPage extends Component {
         render={({ location }) => (
           <div className="weather-page">
             <Header
-              searchCity={this.props.searchCity}
+              searchAddress={this.props.searchAddress}
               lat={this.props.lat}
               lng={this.props.lng}
               days={this.props.days}
               location={location}
             />
             <Address address={this.state.isLoading ? 'Loading..' : this.props.address} />
-            <TransitionGroup>
-              <CSSTransition key={location.key} timeout={300} classNames="fade" appear>
-                <Switch location={location}>
-                  <Route
-                    path={`${this.props.match.path}/hourly/:id`}
-                    render={this.renderShowHourlyWeather}
-                  />
-                  <Route
-                    path={`${this.props.match.path}/daily`}
-                    render={this.renderShowDailyWeather}
-                  />
-                </Switch>
-              </CSSTransition>
-            </TransitionGroup>
+            <Switch>
+              <Route
+                path={`${this.props.match.path}/hourly/:id`}
+                render={this.renderShowHourlyWeather}
+              />
+              <Route path={`${this.props.match.path}/daily`} render={this.renderShowDailyWeather} />
+            </Switch>
           </div>
         )}
       />

@@ -3,10 +3,6 @@ const request = require('request');
 const keys = require('../config/keys');
 const googleMapsClient = require('@google/maps').createClient({ key: keys.googleMapsKey });
 
-// const googleUrl = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
-// 1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${
-//   keys.googleMapsKey
-// }`;
 const weatherRootUrl = `https://api.darksky.net/forecast/${keys.darkskySecret}`;
 
 module.exports = (app) => {
