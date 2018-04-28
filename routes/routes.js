@@ -20,23 +20,16 @@ module.exports = (app) => {
         res.send(error);
       }
 
-      const { lat, lng } = response.json.results[0].geometry.location;
-      const address = response.json.results[0].formatted_address;
-      const weatherUrl = `${weatherRootUrl}/${lat},${lng}?exclude=currently,minutely,alerts,flags&extend=hourly`;
+      if (response.json.results.length > 0) {
+        const { lat, lng } = response.json.results[0].geometry.location;
 
-      request(weatherUrl, (error, response, body) => {
-        if (error) {
-          res.send(error);
-        }
-
-        const json = JSON.parse(body);
         res.send({
-          ...json,
-          address,
           lat,
           lng,
         });
-      });
+      } else {
+        res.send({ error: response.json.status });
+      }
     });
   });
 

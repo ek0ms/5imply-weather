@@ -11,29 +11,22 @@ class LandingPage extends Component {
     };
   }
 
-  updateLoader = (bool) => {
+  isLoading = (bool) => {
     this.setState({ isLoading: bool });
   };
 
-  renderLoader = () => {
-    if (this.state.isLoading) {
-      return <Skycons color="white" icon="WIND" />;
-    }
-    return <noscript />;
-  };
-
   render() {
+    const loader = this.state.isLoading ? <Skycons color="white" icon="WIND" /> : <noscript />;
     return (
       <div className="landing-page">
         <div className="title">
           5<span className="text-light">imply</span> W<span className="text-light">eather</span>
         </div>
-        <div className="loader">{this.renderLoader()}</div>
+        <div className="loader">{loader}</div>
         <SearchBar
-          searchAddress={this.props.searchAddress}
-          updateLoader={this.updateLoader}
-          lat={this.props.lat}
-          lng={this.props.lng}
+          getCoordsFromAddress={this.props.getCoordsFromAddress}
+          updateWeatherFromCoords={this.props.updateWeatherFromCoords}
+          isLoading={this.isLoading}
         />
       </div>
     );

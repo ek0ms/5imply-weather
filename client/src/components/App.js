@@ -18,15 +18,19 @@ class App extends Component {
     };
   }
 
-  searchAddress = async (query) => {
+  getCoordsFromAddress = async (query) => {
     const uri = encodeURI(query);
     const response = await fetch(`http://localhost:5000/address/${uri}`);
     const json = await response.json();
 
-    this.updateState(json);
+    if (json.error) {
+      return json.error;
+    }
+
+    return `${json.lat},${json.lng}`;
   };
 
-  searchCoords = async (coords) => {
+  updateWeatherFromCoords = async (coords) => {
     const response = await fetch(`http://localhost:5000/coordinates/${coords}`);
     const json = await response.json();
 
@@ -105,9 +109,8 @@ class App extends Component {
   renderLandingPage = (routeProps) => (
     <LandingPage
       {...routeProps}
-      searchAddress={this.searchAddress}
-      lat={this.state.lat}
-      lng={this.state.lng}
+      getCoordsFromAddress={this.getCoordsFromAddress}
+      updateWeatherFromCoords={this.updateWeatherFromCoords}
     />
   );
 
@@ -117,8 +120,8 @@ class App extends Component {
         <WeatherPage
           {...routeProps}
           {...this.state}
-          searchAddress={this.searchAddress}
-          searchCoords={this.searchCoords}
+          getCoordsFromAddress={this.getCoordsFromAddress}
+          updateWeatherFromCoords={this.updateWeatherFromCoords}
         />
       );
     }

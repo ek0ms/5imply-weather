@@ -12,7 +12,7 @@ const Footer = (props) => (
           target="_blank"
           rel="noreferrer noopener"
         >
-          <i className="icon ion-social-github" />
+          <i className="fab fa-github" />
         </a>
       </span>
     </div>

@@ -38,7 +38,10 @@ const Header = (props) => {
         <a href="/" className="logo">
           5W
         </a>
-        <SearchBar searchAddress={props.searchAddress} lat={props.lat} lng={props.lng} />
+        <SearchBar
+          getCoordsFromAddress={props.getCoordsFromAddress}
+          updateWeatherFromCoords={props.updateWeatherFromCoords}
+        />
       </div>
       <ul className="nav-days">{renderDayLinks()}</ul>
     </div>

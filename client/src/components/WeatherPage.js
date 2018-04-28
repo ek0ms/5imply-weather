@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import Skycons from 'react-skycons';
 import Header from './Header';
 import Address from './Address';
 import ShowDailyWeather from './ShowDailyWeather';
@@ -12,22 +13,20 @@ class WeatherPage extends Component {
     this.state = { isLoading: false };
   }
 
-  showLoader = (bool) => {
-    this.setState({ isLoading: bool });
-  };
-
   componentDidUpdate(prevProps) {
     const { coords } = this.props.match.params;
     const prevCoords = prevProps.match.params.coords;
 
     if (coords !== prevCoords) {
-      this.setState({ isLoading: true });
       this.showLoader(true);
-      this.props.searchCoords(coords).then(() => {
-        this.setState({ isLoading: false });
+      this.props.updateWeatherFromCoords(coords).then(() => {
         this.showLoader(false);
       });
     }
+  }
+
+  showLoader(bool) {
+    this.setState({ isLoading: bool });
   }
 
   renderShowDailyWeather = (routeProps) => {
@@ -38,7 +37,7 @@ class WeatherPage extends Component {
           lat={this.props.lat}
           lng={this.props.lng}
           days={this.props.days}
-          searchCoords={this.props.searchCoords}
+          updateWeatherFromCoords={this.props.updateWeatherFromCoords}
           showLoader={this.showLoader}
         />
       );
@@ -55,7 +54,7 @@ class WeatherPage extends Component {
           hours={this.props.hours}
           lat={this.props.lat}
           lng={this.props.lng}
-          searchCoords={this.props.searchCoords}
+          updateWeatherFromCoords={this.props.updateWeatherFromCoords}
           showLoader={this.showLoader}
         />
       );
@@ -65,25 +64,30 @@ class WeatherPage extends Component {
   };
 
   render() {
+    const weather = this.state.isLoading ? (
+      <div className="loader">
+        <Skycons color="white" icon="WIND" />
+      </div>
+    ) : (
+      <Switch>
+        <Route path={`${this.props.match.path}/hourly/:id`} render={this.renderShowHourlyWeather} />
+        <Route path={`${this.props.match.path}/daily`} render={this.renderShowDailyWeather} />
+      </Switch>
+    );
     return (
       <Route
         render={({ location }) => (
           <div className="weather-page">
             <Header
-              searchAddress={this.props.searchAddress}
+              getCoordsFromAddress={this.props.getCoordsFromAddress}
+              updateWeatherFromCoords={this.props.updateWeatherFromCoords}
               lat={this.props.lat}
               lng={this.props.lng}
               days={this.props.days}
               location={location}
             />
-            <Address address={this.state.isLoading ? 'Loading..' : this.props.address} />
-            <Switch>
-              <Route
-                path={`${this.props.match.path}/hourly/:id`}
-                render={this.renderShowHourlyWeather}
-              />
-              <Route path={`${this.props.match.path}/daily`} render={this.renderShowDailyWeather} />
-            </Switch>
+            <Address address={this.state.isLoading ? 'Loading ...' : this.props.address} />
+            {weather}
           </div>
         )}
       />

@@ -21,29 +21,43 @@ class SearchBar extends Component {
     this.setState({ value });
   };
 
-  onFormSubmit = (event) => {
+  onFormSubmit = async (event) => {
     event.preventDefault();
-    const error = validate(this.state.value);
+    const error = clientValidate(this.state.value);
 
     if (error) {
       this.setState({ error });
       this.searchField.focus();
     } else {
-      this.setState({ isDisabled: true });
-      if (this.props.updateLoader) {
-        this.props.updateLoader(true);
+      this.startLoader();
+
+      const coords = await this.props.getCoordsFromAddress(this.state.value);
+
+      if (coords === 'ZERO_RESULTS') {
+        this.endLoader();
+        this.setState({ error: 'No Results' });
+        this.searchField.focus();
+      } else {
+        await this.props.updateWeatherFromCoords(coords);
+        this.endLoader();
+        this.props.history.push(`/weather/${coords}/daily`);
       }
-
-      this.props.searchAddress(this.state.value).then(() => {
-        this.setState({ isDisabled: false, error, value: '' });
-        if (this.props.updateLoader) {
-          this.props.updateLoader(false);
-        }
-
-        this.props.history.push(`/weather/${this.props.lat},${this.props.lng}/daily`);
-      });
     }
   };
+
+  startLoader() {
+    this.setState({ isDisabled: true });
+    if (this.props.isLoading) {
+      this.props.isLoading(true);
+    }
+  }
+
+  endLoader() {
+    this.setState({ isDisabled: false, error: '', value: '' });
+    if (this.props.isLoading) {
+      this.props.isLoading(false);
+    }
+  }
 
   render() {
     return (
@@ -72,12 +86,12 @@ class SearchBar extends Component {
 
 export default withRouter(SearchBar);
 
-function validate(value) {
-  let errors = '';
+function clientValidate(value) {
+  let error = '';
 
   if (!value) {
-    errors = 'Please enter an address';
+    error = 'Please enter an address';
   }
 
-  return errors;
+  return error;
 }
