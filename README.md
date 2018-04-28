@@ -26,3 +26,7 @@ Move to root project folder and with npm: `npm install`
 **To run:**
 
 Move to root folder and with npm: `npm run dev`
+
+## Details
+
+The backend server is necessary to communicate with the Darksky API as they don't allow CORS.
