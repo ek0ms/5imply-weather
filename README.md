@@ -1,7 +1,5 @@
 # 5imply Weather
 
----
-
 ## Overview
 
 A minimal weather application that provides a 5-day and hourly forecast based on the user's inputted address.
